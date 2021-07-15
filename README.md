@@ -12,6 +12,50 @@ Para instalar la aplicación se requiere:
 
 > Las pruebas se han realizado sobre Ubuntu `20.04`, con Docker `19.03.8` y Docker Compose `1.25.0`.
 
+## Procedimiento
+
+### 1. Descargar proyectos desde Github
+
+Para la construcción de las imágenes de *avaldao-dapp* y de *avaldao-feathers*, se requiere descargar el código fuente desde los repositorios en Github. Los siguientes scrtips son de utilidad para este paso.
+
+```bash
+./clone-avaldao-dapp.sh
+./clone-avaldao-feathers.sh
+```
+
+> Este paso solo es necesario en el caso de que se trabaje en un entorno de desarrollo. Para los demás ambiente, las imagenes de los contenedores se pueden obtener directamente directamente desde [ACDI Dockerhub](https://hub.docker.com/u/acdi).
+
+### 2. Configuración
+
+Los archivos de configuración se encuentran montados en los contenedores en forma de [bind mount](https://docs.docker.com/storage/bind-mounts/). De esta forma es posible cambiar la configuración sin reconstruir las imágenes.
+
+Adicional a los archivos de configuración, puede parametrizarse el archivo de ambiente `.env` para establecer el valor de ciertas variables.
+
+**Avalado Dapp**
+
+Configurar el archivo `dapp/config/configuration.js`.
+
+En el caso de la dapp, se inicia en modo `development`, por lo que los cambios son tomados tan pronto se modifique el archivo sin reiniciar el contenedor.
+
+**Avalado Feathers**
+
+Configurar el archivo `feathers/config/default.json`.
+
+### 3. Ejecución
+
+Al momento de ejecutar los contenedores, debe elegirse cual es el ambiente (`development`|`staging`|`production`) que se desea utilizar.
+
+Por ejemplo, para iniciar el ambiente de `development`, el cual es utilizado para el desarrollo local, se debe ejecutar lo siguiente:
+
+```bash
+docker-compose -f docker-compose.yml -f docker-compose.development.yml up
+# Workaround por problema de configuración de CORS en IPFS.
+./ipfs/update.sh
+```
+
+Esto inicia los contenedores en el orden adecuado.
+En el caso de aquellos contenedores para los cuales no tenga una imágen en el registro local, se crearán utilizando los archivo `Dockerfiles` que se encuentran en los directorios especificados en la directiva `build` del servicio.
+
 ## Docker compose
 
 ### Contenedores
@@ -40,25 +84,13 @@ donde *efem-mongodb* es el nombre del contenedor, y docker se encargará de reso
 Por workaround al problema de resolución de nombres, se deben agregar las siguientes entradas en el archivo */etc/hosts*.
 
 ```
+127.0.0.1     avaldao-mongodb
 127.0.0.1     avaldao-ipfs
 127.0.0.1     avaldao-feathers
 ```
 
-## Prerequisitos
-
-### Descarga de proyectos desde github
-Para la construcción de las imágenes de dapp y de feathers, es necesario obtener el código fuente desde los repositorios en github, para eso usamos los scripts fetch-dapp y fetch-feathers, los cuales clonan la rama efem-dev en directorios locales.
-```bash
-./fetch-dapp.sh
-./fetch-feathers.sh
-```
-Una vez descargado el código fuente podemos continuar con la creación de las imágenes.
-Este paso solo es necesario en el caso de que se quiera trabajar en un entorno de desarrollo, para otros entornos, las imagenes de los contenedores
-se obtendran directamente desde [dockerhub](https://hub.docker.com/u/acdi).
 
 
-### Configuración de las variables de entorno
-Las variables utilizadas en el archivo docker-compose deben establecerse en el archivo .env que se encuentra en este directorio. Son montajes opcionales utilizados con popósito de desarrollo.
 
 #### IPFS Pinning
 
@@ -70,15 +102,7 @@ PINATA_SECRET_API_KEY="your pinata secret api key"
 ```
 Estas datos deben ser mantenidos fuera del versionado en Github.
 
-## Ejecución
-Al momento de ejecutar los contenedores, debemos elegir cual es el environment [development | staging | production] que se desea utilizar.
-A modo de ejemplo, para iniciar el enviroment de development, el cual es utilizado para el desarrollo local, debemos ejecutar lo siguiente:
-```bash
-docker-compose -f docker-compose.yml -f docker-compose.development.yml up -d
-# Workaround por problema de configuración de CORS en IPFS.
-./ipfs/update.sh
-```
-Esto iniciará todos los contenedores del esquema, en un orden adecuado. En el caso de aquellos contenedores para los cuales no tenga una imágen en el registro local, procederá a la creación de las mismas utilizando los Dockerfiles que se encuentren en los directorios especificados en  la directiva build del servicio. Esto puede tomar algo de tiempo la primera vez que lo ejecutemos, especialmente en el caso de dapp y feathers que son los dos contenedores que más dependencias instalan a partir de npm.
+
 
 ## Despliegue de smart contracts
 
@@ -103,13 +127,8 @@ Y configurar la siguiente variable según el ambiente:
 
 En el caso de desarrollo, el cambio será reflejado en la dapp sin necesidad de reiniciar su contenedor.
 
-## Configuración de dapp y feathers
 
-Ambos contenedores obtienen su configuración a partir de dos archivos.
-En el caso de dapp, lo hace a través del archivo **dapp/config/configuration.js** , mientras que feathers utiliza el archivo **feathers/config/default.json**.
 
-Estos archivos se encuentran montados en los contenedores en forma de [bind mount](https://docs.docker.com/storage/bind-mounts/). De esta forma  podemos cambiar la configuración sin necesidad de reconstruir las imágenes.
-En el caso de la dapp, como se inicia en modo development, los cambios serán tomados tan pronto modifiquemos el archivo sin necesidad de reiniciar el contenedor. 
 ## Problemas conocidos
 ### CORS en ipfs
 La primera vez que se inicia el contenedor efem-ipfs, no tiene CORS habilitado. Si bien se han ejecutado los comandos para configurar las opciones, no toman efecto hasta que el contenedor es reiniciado. Por este motivo, es necesario ejecutar el comando update.sh que se encuentra en el directorio ipfs.

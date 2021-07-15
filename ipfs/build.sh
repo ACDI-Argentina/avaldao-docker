@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build . -t efem/ipfs
+docker build . -t avaldao/ipfs

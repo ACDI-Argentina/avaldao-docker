@@ -16,4 +16,3 @@ ADD app .
 EXPOSE 3010
 
 CMD ["npm","start"]
-
