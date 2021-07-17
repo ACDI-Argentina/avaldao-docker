@@ -2,6 +2,9 @@
 dapp/app
 feathers/app
 dapp-staging/build
+ipfs/data
+ipfs/export
+mongodb/data
 
 .env
 users-tesnet.json

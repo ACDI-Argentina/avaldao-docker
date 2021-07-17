@@ -19,19 +19,18 @@ services:
   avaldao-ipfs:
     container_name: avaldao-ipfs
     image: acdi/avaldao-ipfs
+    build: 
+      context: ./ipfs
+    ports:
+      - "4001:4001"
+      - "5001:5001"
+      - "8080:8080"
     volumes:
-      - ipfs-data:/data/ipfs
-      - ipfs-export:/export
+      - ${IPFS_DATA:-./ipfs/data}:/data/ipfs
+      - ${IPFS_EXPORT:-./ipfs/export}:/export
 
   avaldao-mongodb:
     container_name: avaldao-mongodb
-    image: mongo:3.6.18
+    image: mongo:5.0.0
     ports:
       - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
-
-volumes:
-  mongo-data:
-  ipfs-data:
-  ipfs-export:

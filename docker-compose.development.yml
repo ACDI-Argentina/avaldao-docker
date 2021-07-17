@@ -20,8 +20,6 @@ services:
       - ${DAPP_PATH_SRC:-./dapp/app/src}:/usr/src/app/src
       - ${DAPP_PATH_ENV:-./dapp/app/.env}:/usr/src/app/.env
       - ${SMART_CONTRACT_PROJECT}:/usr/src/app/node_modules/@acdi/give4forests-crowdfunding-contract
-    depends_on:
-      - avaldao-rsk
 
 
   avaldao-feathers:
@@ -32,25 +30,3 @@ services:
       - ./feathers/config/default.json:/usr/src/app/config/default.json
       - ${FEATHERS_PATH_SRC:-./feathers/src}:/usr/src/app/src
       - ${FEATHERS_PATH_ENV:-./feathers/.env}:/usr/src/app/.env
-    depends_on:
-      - avaldao-rsk
-
-  avaldao-ipfs:
-    build: 
-      context: ./ipfs
-    ports:
-      - "4001:4001"     # Swarm tcp, should be exposed to the public
-      - "4001:4001/udp" # Swarm tcp, should be exposed to the public
-      - "5001:5001"     # Daemon API; must not be exposed publicly but to client services under you control
-      - "8080:8080"     # Web Gateway
-
-  avaldao-rsk:
-    container_name: avaldao-rsk
-    image: avaldao/rsk-regtest
-    build: 
-      context: ./rsk/regtest
-      dockerfile: Dockerfile.RegTest
-    ports:
-      - "4444:4444"
-      - "4445:4445"
-      - "30305:30305"
