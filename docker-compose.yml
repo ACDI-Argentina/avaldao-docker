@@ -2,8 +2,16 @@ version: "3"
 services:
   avaldao-dapp:
     container_name: avaldao-dapp
+    build: ./dapp
     image: acdi/avaldao-dapp
+    ports:
+      - "3010:3010"
     stdin_open: true
+    volumes:
+#     - ./dapp/config/configuration.js:/usr/src/app/src/configuration.js
+      - .env:/usr/src/app/.env
+      - ${DAPP_PATH_SRC:-./dapp/app/src}:/usr/src/app/src
+      - ${SMART_CONTRACT_PROJECT}:/usr/src/app/node_modules/@acdi/give4forests-crowdfunding-contract
     depends_on:
       - avaldao-ipfs
       - avaldao-mongodb
@@ -11,7 +19,14 @@ services:
 
   avaldao-feathers:
     container_name: avaldao-feathers
+    build: ./feathers
     image: acdi/avaldao-feathers
+    ports:
+      - "3030:3030"
+    volumes:
+      - .env:/usr/src/app/.env
+      - ./feathers/config/default.json:/usr/src/app/config/default.json
+      - ${FEATHERS_PATH_SRC:-./feathers/src}:/usr/src/app/src
     depends_on:
       - avaldao-ipfs
       - avaldao-mongodb

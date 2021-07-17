@@ -1,4 +1,4 @@
-# RSK Testnet
+# RSK Regtest
 
 Configuración de nodo local RSK Regtest.
 

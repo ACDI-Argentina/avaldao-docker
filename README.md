@@ -19,8 +19,8 @@ Para instalar la aplicación se requiere:
 Para la construcción de las imágenes de *avaldao-dapp* y de *avaldao-feathers*, se requiere descargar el código fuente desde los repositorios en Github. Los siguientes scrtips son de utilidad para este paso.
 
 ```bash
-./clone-avaldao-dapp.sh
-./clone-avaldao-feathers.sh
+./scripts/clone-avaldao-dapp.sh
+./scripts/clone-avaldao-feathers.sh
 ```
 
 > Este paso solo es necesario en el caso de que se trabaje en un entorno de desarrollo. Para los demás ambiente, las imagenes de los contenedores se pueden obtener directamente directamente desde [ACDI Dockerhub](https://hub.docker.com/u/acdi).
@@ -29,7 +29,7 @@ Para la construcción de las imágenes de *avaldao-dapp* y de *avaldao-feathers*
 
 Los archivos de configuración se encuentran montados en los contenedores en forma de [bind mount](https://docs.docker.com/storage/bind-mounts/). De esta forma es posible cambiar la configuración sin reconstruir las imágenes.
 
-Adicional a los archivos de configuración, puede parametrizarse el archivo de ambiente `.env` para establecer el valor de ciertas variables.
+Adicional a los archivos de configuración, puede parametrizarse el archivo de ambiente `.env` para establecer el valor de variables de ambiente.
 
 **Avalado Dapp**
 
@@ -48,7 +48,7 @@ Al momento de ejecutar los contenedores, debe elegirse cual es el ambiente (`dev
 Por ejemplo, para iniciar el ambiente de `development`, el cual es utilizado para el desarrollo local, se debe ejecutar lo siguiente:
 
 ```bash
-docker-compose -f docker-compose.yml -f docker-compose.development.yml up
+docker-compose -f docker-compose.yml up
 # Workaround por problema de configuración de CORS en IPFS.
 ./ipfs/update.sh
 ```
@@ -94,7 +94,7 @@ Por workaround al problema de resolución de nombres, se deben agregar las sigui
 
 #### IPFS Pinning
 
-Para utilizar el servicio de IPFS Pinning de Pinata es necesario configurar las siguientes variables de entorno en el archivo *feathers/app/.env*:
+Para utilizar el servicio de IPFS Pinning de Pinata es necesario configurar las siguientes variables de entorno en el archivo *.env*:
 
 ```
 PINATA_API_KEY="your pinata api key"
@@ -106,7 +106,7 @@ Estas datos deben ser mantenidos fuera del versionado en Github.
 
 ## Despliegue de smart contracts
 
-Una vez que los servicios se encuentren levantados, es necesario desplegar el smart contract de Crowdfunding según sus instrucciones de [despliegue](https://github.com/ACDI-Argentina/efem-aragon-apps/tree/efem-dev/apps/crowdfunding#despliegue).
+Una vez que los servicios se encuentren levantados, es necesario desplegar el smart contract de Crowdfunding según sus instrucciones de [despliegue](https://github.com/ACDI-Argentina/avaldao-contract/blob/master/README.md#despliegue).
 
 Una vez completado el despliegue, debe tomarse la dirección de la App Crowdfunding:
 
