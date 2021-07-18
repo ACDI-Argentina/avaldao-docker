@@ -76,15 +76,17 @@ En el caso de la dapp, se inicia en modo `development`, por lo que los cambios s
 
 Configurar el archivo `feathers/config/default.json`.
 
-#### Configuración del ambiente
+#### Configuración de DNS
 
-Por workaround al problema de resolución de nombres, se deben agregar las siguientes entradas en el archivo */etc/hosts*.
+Se deben agregar las siguientes entradas en el archivo */etc/hosts*.
 
 ```
 127.0.0.1     avaldao-ipfs
 127.0.0.1     avaldao-feathers
 127.0.0.1     avaldao-mongodb
 ```
+
+Esto es para que los host de los contenedores sean accesibles por su nombre desde el host de desarrollo.
 
 ### 5. Ejecución
 
@@ -94,8 +96,6 @@ Por ejemplo, para iniciar el ambiente de `development`, el cual es utilizado par
 
 ```bash
 docker-compose -f docker-compose.dev.yml up
-# Workaround por problema de configuración de CORS en IPFS (ejecutar solo una vez).
-./ipfs/update.sh
 ```
 
 Esto inicia los contenedores en el orden adecuado.
@@ -108,18 +108,8 @@ En el caso de aquellos contenedores para los cuales no tenga una imágen en el r
 La primera vez que se inicia el contenedor `avaldao-ipfs`, no cuenta con CORS habilitado. Si bien se han ejecutado los comandos para configurar las opciones, no toman efecto hasta que el contenedor es reiniciado. Por este motivo, es necesario ejecutar el comando *update.sh* que se encuentra en el directorio *ipfs*.
 
 ```bash
+# Workaround por problema de configuración de CORS en IPFS (ejecutar solo una vez).
 ./ipfs/update.sh
-```
-
-### Resolución de nombres de contenedores en host
-
-Si bien los contenedores al estar conectados a la misma red, pueden comunicarse a través de sus nombres, esto no es válido para el host sobre el cual se ejecutan los contenedores.
-La solución temporal fue agregar asociaciones en /etc/hosts los nombres de los contenedores hacia localhost. 
-
-```
-127.0.0.1     avaldao-ipfs
-127.0.0.1     avaldao-feathers
-127.0.0.1     avaldao-mongodb
 ```
 
 ## IPFS Pinning
