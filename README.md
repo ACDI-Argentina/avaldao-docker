@@ -16,6 +16,8 @@ Para instalar la aplicación se requiere:
 
 ### 1. Ejecutar nodo RSK
 
+Las instrucciones oficiales se encuentran en el [portal de desarrollo de RSK](https://developers.rsk.co/rsk/node/install).
+
 RSK cuenta con 3 redes:
 
   - *Desarrollo*: *Regtest*
@@ -24,7 +26,7 @@ RSK cuenta con 3 redes:
 
 Para las redes de *Testing* y *Producción* existen nodos públicos que pueden ser utilizados.
 
-En *Desarrollo* se recomienda iniciar un nodo RSK local de la siguiente manera:
+En *Desarrollo* se recomienda iniciar un nodo privado RSK local de la siguiente manera:
 
 ```
 docker-compose -f docker-compose.dev.rsk-node-regtest.yml up -d
