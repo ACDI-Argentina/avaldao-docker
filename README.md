@@ -14,7 +14,36 @@ Para instalar la aplicación se requiere:
 
 ## Procedimiento
 
-### 1. Descargar proyectos desde Github
+### 1. Ejecutar nodo RSK
+
+RSK cuenta con 3 redes:
+
+  - *Desarrollo*: *Regtest*
+  - *Testing*: *Testnet*
+  - *Producción*: *Mainnet*
+
+Para las redes de *Testing* y *Producción* existen nodos públicos que pueden ser utilizados.
+
+En *Desarrollo* se recomienda iniciar un nodo RSK local de la siguiente manera:
+
+```
+docker-compose -f docker-compose.dev.rsk-node-regtest.yml up -d
+```
+Para detener el nodo y eleiminar el contenedor debe ejecutarse lo siguiente:
+
+```
+docker-compose -f docker-compose.dev.rsk-node-regtest.yml down
+```
+
+> El contenedor debe eliminarse ya que se produce un error si se inicia el mismo contenedor nuevamente.
+
+### 2. Desplegar smart contract
+
+Se debe desplegar el smart contract de Avaldao en el nodo de RSK iniciado localmente. Las instrucciones de desplegue en desarrollo se detallan [aquí](https://github.com/ACDI-Argentina/avaldao-contract#desarrollo).
+
+La dirección pública del smart contract debe especificarse en la configuración de la aplicación: *.env#AVALDAO_ADDRESS*.
+
+### 3. Descargar proyectos desde Github
 
 Para la construcción de las imágenes de *avaldao-dapp* y de *avaldao-feathers*, se requiere descargar el código fuente desde los repositorios en Github. Los siguientes scrtips son de utilidad para este paso.
 
@@ -25,7 +54,7 @@ Para la construcción de las imágenes de *avaldao-dapp* y de *avaldao-feathers*
 
 > Este paso solo es necesario en el caso de que se trabaje en un entorno de desarrollo. Para los demás ambiente, las imagenes de los contenedores se pueden obtener directamente directamente desde [ACDI Dockerhub](https://hub.docker.com/u/acdi).
 
-### 2. Configuración
+### 4. Configuración
 
 Los archivos de configuración se encuentran montados en los contenedores en forma de [bind mount](https://docs.docker.com/storage/bind-mounts/). De esta forma es posible cambiar la configuración sin reconstruir las imágenes.
 
@@ -41,20 +70,43 @@ En el caso de la dapp, se inicia en modo `development`, por lo que los cambios s
 
 Configurar el archivo `feathers/config/default.json`.
 
-### 3. Ejecución
+### 5. Ejecución
 
 Al momento de ejecutar los contenedores, debe elegirse cual es el ambiente (`development`|`staging`|`production`) que se desea utilizar.
 
 Por ejemplo, para iniciar el ambiente de `development`, el cual es utilizado para el desarrollo local, se debe ejecutar lo siguiente:
 
 ```bash
-docker-compose -f docker-compose.yml up
+docker-compose -f docker-compose.dev.yml up
 # Workaround por problema de configuración de CORS en IPFS.
 ./ipfs/update.sh
 ```
 
 Esto inicia los contenedores en el orden adecuado.
 En el caso de aquellos contenedores para los cuales no tenga una imágen en el registro local, se crearán utilizando los archivo `Dockerfiles` que se encuentran en los directorios especificados en la directiva `build` del servicio.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Docker compose
 
@@ -104,28 +156,6 @@ Estas datos deben ser mantenidos fuera del versionado en Github.
 
 
 
-## Despliegue de smart contracts
-
-Una vez que los servicios se encuentren levantados, es necesario desplegar el smart contract de Crowdfunding según sus instrucciones de [despliegue](https://github.com/ACDI-Argentina/avaldao-contract/blob/master/README.md#despliegue).
-
-Una vez completado el despliegue, debe tomarse la dirección de la App Crowdfunding:
-
-```
-Aragon deploy
- . . .
-Crowdfunding deploy
- - Libraries
-   . . .
- - Crowdfunding: 0x05A55E87d40572ea0F9e9D37079FB9cA11bdCc67
- . . .
- - Initialized
-```
-
-Y configurar la siguiente variable según el ambiente:
-
-- *dapp/config/configuration.js#crowdfundingAddress*
-
-En el caso de desarrollo, el cambio será reflejado en la dapp sin necesidad de reiniciar su contenedor.
 
 
 
@@ -145,9 +175,4 @@ La solución temporal fue agregar asociaciones en /etc/hosts los nombres de los 
 
 ```
 Este esquema se usa **solo de forma local con fines de desarrollo**. En el ambiente productivo, se ejecutarán los contenedores en distintos servidores, los cuales tendrán asociados nombres de dominio.
-
-### El contenedor efem-rsk no responde
-Algunas veces el contenedor efem-rsk queda en un estado inconsistente. Al ejecutar ``docker ps``  dicho contenedor se mostrará en estado unhealty. 
-Esto sucede cuando no es la primera vez que ejecutamos el entorno, ya que docker tratará de reutilizar el contenedor de efem-rsk creado anteriormente.
-Esto se soluciona fácilmente eliminando dicho contenedor con `docker rm efem-rsk` antes de hacer ``docker-compose up``
 
