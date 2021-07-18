@@ -1,6 +1,10 @@
 # Avaldao - Instructivo de despliegue
 
-El despliegue de Avaldao se realiza a través de contenedores Docker y Docker Compose. 
+El despliegue de Avaldao se realiza a través de contenedores Docker y Docker Compose.
+
+El despliegue se presenta a continuación.
+
+![Despliegue](despliegue.svg)
 
 ## Requerimientos
 
@@ -72,6 +76,16 @@ En el caso de la dapp, se inicia en modo `development`, por lo que los cambios s
 
 Configurar el archivo `feathers/config/default.json`.
 
+#### Configuración del ambiente
+
+Por workaround al problema de resolución de nombres, se deben agregar las siguientes entradas en el archivo */etc/hosts*.
+
+```
+127.0.0.1     avaldao-ipfs
+127.0.0.1     avaldao-feathers
+127.0.0.1     avaldao-mongodb
+```
+
 ### 5. Ejecución
 
 Al momento de ejecutar los contenedores, debe elegirse cual es el ambiente (`development`|`staging`|`production`) que se desea utilizar.
@@ -80,73 +94,35 @@ Por ejemplo, para iniciar el ambiente de `development`, el cual es utilizado par
 
 ```bash
 docker-compose -f docker-compose.dev.yml up
-# Workaround por problema de configuración de CORS en IPFS.
+# Workaround por problema de configuración de CORS en IPFS (ejecutar solo una vez).
 ./ipfs/update.sh
 ```
 
 Esto inicia los contenedores en el orden adecuado.
 En el caso de aquellos contenedores para los cuales no tenga una imágen en el registro local, se crearán utilizando los archivo `Dockerfiles` que se encuentran en los directorios especificados en la directiva `build` del servicio.
 
+## Problemas conocidos
 
+### Configuración de CORS en IPFS
 
+La primera vez que se inicia el contenedor `avaldao-ipfs`, no cuenta con CORS habilitado. Si bien se han ejecutado los comandos para configurar las opciones, no toman efecto hasta que el contenedor es reiniciado. Por este motivo, es necesario ejecutar el comando *update.sh* que se encuentra en el directorio *ipfs*.
 
+```bash
+./ipfs/update.sh
+```
 
+### Resolución de nombres de contenedores en host
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Docker compose
-
-### Contenedores
-
-La solución está compuesta por los siguientes contenedores:
-* avaldao-dapp
-* avaldao-feathers
-* avaldao-ipfs
-* avaldao-mongodb 
-* avaldao-rsk (solo disponible en el environment development)
-
-Las imágenes a partir de las cuales se crean estos contenedores, se indican en el diagrama a continuación.
-![EFEM Despliegue](despliegue.svg)
-
-#### Volúmenes
-
-Tanto **avaldao-ipfs** como **avaldao-mongodb** necesitan persistir datos más allá del ciclo de vida del contenedor. Es decir, si el contenedor se detiene por algún motivo, sería deseable no perder los datos almacenados hasta el momento. Se utilizan tres vólumenes, dos para ipfs, y uno para mongodb. Es posible administrarlos utilizando ``docker volume``. En el caso de querer borrarlos, simplemente usamos ``docker-compose down -v``.
-
-#### Redes
-
-Por defecto, docker-compose crea una red virtual y conecta a todos los contenedores especificados en el mismo archivo. Gracias a esto los contenedores pueden referirse entre si utilizando un esquema de nombres. A modo de ejemplo efem-feathers, puede configurar la conexión a la base datos, utilizando la url ``mongodb://efem-mongodb:27017/``
-donde *efem-mongodb* es el nombre del contenedor, y docker se encargará de resolverlo automáticamente.
-
-## Configuración del ambiente
-
-Por workaround al problema de resolución de nombres, se deben agregar las siguientes entradas en el archivo */etc/hosts*.
+Si bien los contenedores al estar conectados a la misma red, pueden comunicarse a través de sus nombres, esto no es válido para el host sobre el cual se ejecutan los contenedores.
+La solución temporal fue agregar asociaciones en /etc/hosts los nombres de los contenedores hacia localhost. 
 
 ```
-127.0.0.1     avaldao-mongodb
 127.0.0.1     avaldao-ipfs
 127.0.0.1     avaldao-feathers
+127.0.0.1     avaldao-mongodb
 ```
 
-
-
-
-#### IPFS Pinning
+## IPFS Pinning
 
 Para utilizar el servicio de IPFS Pinning de Pinata es necesario configurar las siguientes variables de entorno en el archivo *.env*:
 
@@ -155,26 +131,3 @@ PINATA_API_KEY="your pinata api key"
 PINATA_SECRET_API_KEY="your pinata secret api key"
 ```
 Estas datos deben ser mantenidos fuera del versionado en Github.
-
-
-
-
-
-
-## Problemas conocidos
-### CORS en ipfs
-La primera vez que se inicia el contenedor efem-ipfs, no tiene CORS habilitado. Si bien se han ejecutado los comandos para configurar las opciones, no toman efecto hasta que el contenedor es reiniciado. Por este motivo, es necesario ejecutar el comando update.sh que se encuentra en el directorio ipfs.
-```bash
-./ipfs/update.sh
-```
-### Resolución de nombres de contenedores en host
-Si bien los contenedores al estar conectados a la misma red, pueden comunicarse a través de sus nombres, esto no es válido para el host sobre el cúal se ejecutan los contenedores.
-La solución temporal fue agregar asociaciones en /etc/hosts los nombres de los contenedores hacia localhost. 
-
-```
-127.0.0.1     efem-ipfs
-127.0.0.1     efem-feathers
-
-```
-Este esquema se usa **solo de forma local con fines de desarrollo**. En el ambiente productivo, se ejecutarán los contenedores en distintos servidores, los cuales tendrán asociados nombres de dominio.
-
