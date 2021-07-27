@@ -47,7 +47,7 @@ docker-compose -f docker-compose.dev.rsk-node-regtest.yml down
 
 Se debe desplegar el smart contract de Avaldao en el nodo de RSK iniciado localmente. Las instrucciones de desplegue en desarrollo se detallan [aquí](https://github.com/ACDI-Argentina/avaldao-contract#desarrollo).
 
-La dirección pública del smart contract debe especificarse en la configuración de la aplicación: *.env#AVALDAO_ADDRESS*.
+La dirección pública del smart contract debe especificarse en la configuración de la aplicación: *.env#AVALDAO_CONTRACT_ADDRESS*.
 
 ### 3. Descargar proyectos desde Github
 

@@ -3,8 +3,10 @@ const {
   REACT_APP_DECIMALS = 8, // optional
   REACT_APP_FEATHERJS_CONNECTION_URL,
   REACT_APP_NODE_CONNECTION_URL,
+  REACT_APP_AVALDAO_ADDRESS,
+  REACT_APP_AVALDAO_CONTRACT_ADDRESS,
   REACT_APP_CROWDFUNDING_ADDRESS,
-  REACT_APP_EXCHANGE_RATE_PROVIDER_ADDRESS,
+  REACT_APP_EXCHANGE_RATE_PROVIDER_CONTRACT_ADDRESS,
   REACT_APP_TOKEN_RIF_ADDRESS,
   REACT_APP_TOKEN_DOC_ADDRESS,
   REACT_APP_TOKEN_ADDRESSES,
@@ -37,7 +39,8 @@ const configurations = {
     },
     title: 'localhost',
     crowdfundingAddress: '0x05A55E87d40572ea0F9e9D37079FB9cA11bdCc67',
-    exchangeRateProviderAddress: '0x0Aa058aD63E36bC2f98806f2D638353AE89C3634',
+    avaldaoContractAddress: '',
+    exchangeRateProviderContractAddress: '0x0Aa058aD63E36bC2f98806f2D638353AE89C3634',
     networkName: 'ganache',
     nodeId: 88,
     feathersConnection: 'http://localhost:3030', //efem-feathers
@@ -110,7 +113,8 @@ const configurations = {
     },
     title: 'RSK Testnet',
     crowdfundingAddress: '0x05A55E87d40572ea0F9e9D37079FB9cA11bdCc67',
-    exchangeRateProviderAddress: '0x0Aa058aD63E36bC2f98806f2D638353AE89C3634',
+    avaldaoContractAddress: '',
+    exchangeRateProviderContractAddress: '0x0Aa058aD63E36bC2f98806f2D638353AE89C3634',
     networkName: 'rsk_testnet',
     nodeId: 31,
     feathersConnection: 'https://testnet.feathers.b4h.world',
@@ -153,7 +157,8 @@ const configurations = {
     },
     title: 'RSK MainNet',
     crowdfundingAddress: '0x05A55E87d40572ea0F9e9D37079FB9cA11bdCc67',
-    exchangeRateProviderAddress: '0x0Aa058aD63E36bC2f98806f2D638353AE89C3634',
+    avaldaoContractAddress: '',
+    exchangeRateProviderContractAddress: '0x0Aa058aD63E36bC2f98806f2D638353AE89C3634',
     networkName: 'rsk_mainnet',
     nodeId: 30,
     feathersConnection: 'https://feathers.b4h.world',
@@ -189,7 +194,9 @@ const config = Object.assign({}, configurations[REACT_APP_ENVIRONMENT]);
 
 // Overwrite the environment values with parameters
 config.crowdfundingAddress = REACT_APP_CROWDFUNDING_ADDRESS || config.crowdfundingAddress;
-config.exchangeRateProviderAddress = REACT_APP_EXCHANGE_RATE_PROVIDER_ADDRESS || config.exchangeRateProviderAddress;
+config.avaldaoAddress = REACT_APP_AVALDAO_ADDRESS || config.avaldaoAddress;
+config.avaldaoContractAddress = REACT_APP_AVALDAO_CONTRACT_ADDRESS || config.avaldaoContractAddress;
+config.exchangeRateProviderContractAddress = REACT_APP_EXCHANGE_RATE_PROVIDER_CONTRACT_ADDRESS || config.exchangeRateProviderContractAddress;
 config.tokens.rif.address = REACT_APP_TOKEN_RIF_ADDRESS || config.tokens.rif.address;
 config.tokens.doc.address = REACT_APP_TOKEN_DOC_ADDRESS || config.tokens.doc.address;
 config.tokenAddresses = REACT_APP_TOKEN_ADDRESSES

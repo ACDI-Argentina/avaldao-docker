@@ -8,10 +8,10 @@ services:
       - "3010:3010"
     stdin_open: true
     volumes:
-#     - ./dapp/config/configuration.js:/usr/src/app/src/configuration.js
+      - ./dapp/config/configuration.js:/usr/src/app/src/configuration.js
       - .env:/usr/src/app/.env
       - ${DAPP_PATH_SRC:-./dapp/app/src}:/usr/src/app/src
-      - ${SMART_CONTRACT_PROJECT}:/usr/src/app/node_modules/@acdi/give4forests-crowdfunding-contract
+      - ${AVALDAO_CONTRACT_PROJECT}:/usr/src/app/node_modules/@acdi/avaldao-contract
     depends_on:
       - avaldao-ipfs
       - avaldao-mongodb
