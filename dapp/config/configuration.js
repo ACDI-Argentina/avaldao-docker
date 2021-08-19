@@ -21,6 +21,7 @@ const {
 
 const configurations = {
   localhost: {
+    version: '1',
     network: {
       requiredId: 33,
       name: 'RSK Regtest',
@@ -95,6 +96,7 @@ const configurations = {
     anonymousDonationThreshold: 10000
   },
   rsk_testnet: {
+    version: '1',
     network: {
       requiredId: 31,
       name: 'RSK Testnet',
@@ -139,6 +141,7 @@ const configurations = {
     anonymousDonationThreshold: 10000
   },
   rsk_mainnet: {
+    version: '1',
     network: {
       requiredId: 30,
       name: 'RSK Mainnet',

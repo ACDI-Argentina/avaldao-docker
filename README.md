@@ -54,8 +54,8 @@ La dirección pública del smart contract debe especificarse en la configuració
 Para la construcción de las imágenes de *avaldao-dapp* y de *avaldao-feathers*, se requiere descargar el código fuente desde los repositorios en Github. Los siguientes scrtips son de utilidad para este paso.
 
 ```bash
-./scripts/clone-avaldao-dapp.sh
-./scripts/clone-avaldao-feathers.sh
+.\scripts\clone-avaladao-dapp.sh
+.\scripts\clone-avaladao-feathers.sh
 ```
 
 > Este paso solo es necesario en el caso de que se trabaje en un entorno de desarrollo. Para los demás ambiente, las imagenes de los contenedores se pueden obtener directamente directamente desde [ACDI Dockerhub](https://hub.docker.com/u/acdi).

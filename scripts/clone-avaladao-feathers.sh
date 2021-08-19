@@ -1,6 +1,6 @@
 #!/bin/bash
 REPO=https://github.com/ACDI-Argentina/avaldao-feathers.git
-BRANCH=master
+BRANCH=feature-cu-firmar-conformidad-de-contrato-de-aval
 TARGET_DIR=./feathers/app
 
 rm -rf ${TARGET_DIR}
