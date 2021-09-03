@@ -32,7 +32,7 @@ const configurations = {
       transactionEstimatedTimeMilliseconds: 30000
     },
     language: {
-      default: 'en',
+      default: 'es',
       options: [
         { key: "es", name: "Español", flag: "ES" },
         { key: "en", name: "English", flag: "US" }
@@ -107,7 +107,7 @@ const configurations = {
       transactionEstimatedTimeMilliseconds: 32000
     },
     language: {
-      default: 'en',
+      default: 'es',
       options: [
         { key: "es", name: "Español", flag: "ES" },
         { key: "en", name: "English", flag: "US" }
@@ -152,7 +152,7 @@ const configurations = {
       transactionEstimatedTimeMilliseconds: 60000
     },
     language: {
-      default: 'en',
+      default: 'es',
       options: [
         { key: "es", name: "Español", flag: "ES" },
         { key: "en", name: "English", flag: "US" }
