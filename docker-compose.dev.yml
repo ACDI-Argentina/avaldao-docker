@@ -30,6 +30,16 @@ services:
     depends_on:
       - avaldao-ipfs
       - avaldao-mongodb
+      
+  efem-users-feathers:
+    container_name: efem-users-feathers
+    image: acdi/efem-users-feathers
+    ports:
+      - "3031:3030"
+    volumes:
+      - .env:/usr/src/app/.env
+      - ./efem-users-feathers/config/default.json:/usr/src/app/config/default.json
+      - ${FEATHERS_PATH_SRC:-./feathers/src}:/usr/src/app/src
 
   avaldao-ipfs:
     container_name: avaldao-ipfs
