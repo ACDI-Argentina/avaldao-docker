@@ -58,7 +58,10 @@ Para la construcción de las imágenes de *avaldao-dapp* y de *avaldao-feathers*
 .\scripts\clone-avaladao-feathers.sh
 ```
 
-> Este paso solo es necesario en el caso de que se trabaje en un entorno de desarrollo. Para los demás ambiente, las imagenes de los contenedores se pueden obtener directamente directamente desde [ACDI Dockerhub](https://hub.docker.com/u/acdi).
+> Este paso solo es necesario en el caso de que se trabaje en un entorno de desarrollo. Para los demás ambiente, las imagenes de los contenedores se pueden obtener directamente directamente desde [ACDI Dockerhub](https://hub.docker.com/u/acdi). 
+> En el caso del servicio *efem-users-feathers* el mismo es ejecutado utilizando la imagen publicada en dockerhub, independientemente del entorno utilizado.
+
+
 
 ### 4. Configuración
 
@@ -72,9 +75,18 @@ Configurar el archivo `dapp/config/configuration.js`.
 
 En el caso de la dapp, se inicia en modo `development`, por lo que los cambios son tomados tan pronto se modifique el archivo sin reiniciar el contenedor.
 
+Configurar la url del servicio de usuarios usando la variable de entorno `REACT_APP_FEATHERJS_USERS_CONNECTION_URL`.
+
 **Avalado Feathers**
 
 Configurar el archivo `feathers/config/default.json`.
+
+**Efem users service**
+
+Configurar el archivo `efem-users-feathers/config/default.json`.
+
+Configurar la conexión con la base de datos usando la variable de entorno `USERS_MONGO_DB`. Tomar de ejemplo la que se muestra en .env-example.
+
 
 #### Configuración de DNS
 
@@ -83,6 +95,7 @@ Se deben agregar las siguientes entradas en el archivo */etc/hosts*.
 ```
 127.0.0.1     avaldao-ipfs
 127.0.0.1     avaldao-feathers
+127.0.0.1     efem-users-service
 127.0.0.1     avaldao-mongodb
 ```
 
