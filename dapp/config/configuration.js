@@ -2,6 +2,7 @@ const {
   REACT_APP_ENVIRONMENT = 'localhost', // optional
   REACT_APP_DECIMALS = 8, // optional
   REACT_APP_FEATHERJS_CONNECTION_URL,
+  REACT_APP_FEATHERJS_USERS_CONNECTION_URL,
   REACT_APP_NODE_CONNECTION_URL,
   REACT_APP_AVALDAO_ADDRESS,
   REACT_APP_AVALDAO_CONTRACT_ADDRESS,
@@ -17,6 +18,7 @@ const {
   REACT_APP_NODE_ID,
   REACT_APP_IPFS_GATEWAY,
   REACT_APP_IPFS_PINNING_ENABLED,
+  REACT_APP_ANONYMOUS_DONATION_THRESHOLD, //In fiat amount
 } = process.env;
 
 const configurations = {
@@ -39,14 +41,13 @@ const configurations = {
       ]
     },
     title: 'localhost',
-    crowdfundingAddress: '0x05A55E87d40572ea0F9e9D37079FB9cA11bdCc67',
-    avaldaoContractAddress: '',
-    exchangeRateProviderContractAddress: '0x0Aa058aD63E36bC2f98806f2D638353AE89C3634',
     networkName: 'ganache',
     nodeId: 88,
-    feathersConnection: 'http://localhost:3030', //efem-feathers
+    etherscan: 'https://explorer.testnet.rsk.co/', // this won't work, only here so we can see links during development
+    feathersConnection: 'http://localhost:3030',
+    feathersUsersConnection: 'http://localhost:3031',
     ipfsGateway: 'http://localhost:8080/ipfs/',
-    ipfsPinningEnabled: false,
+    ipfsPinningEnabled: true,
     sendErrors: true,
     analytics: {
       ga_UA: 'UA-136337883-3',
@@ -114,13 +115,12 @@ const configurations = {
       ]
     },
     title: 'RSK Testnet',
-    crowdfundingAddress: '0x05A55E87d40572ea0F9e9D37079FB9cA11bdCc67',
-    avaldaoContractAddress: '',
-    exchangeRateProviderContractAddress: '0x0Aa058aD63E36bC2f98806f2D638353AE89C3634',
     networkName: 'rsk_testnet',
     nodeId: 31,
-    feathersConnection: 'https://testnet.feathers.b4h.world',
-    ipfsGateway: 'https://testnet.ipfs.b4h.world/ipfs/',
+    etherscan: 'https://explorer.testnet.rsk.co/',
+    feathersConnection: 'https://feathers.beta.avaldao.com/',
+    feathersUsersConnection: 'https://feathers.beta.give4forest.org',
+    ipfsGateway: 'https://ipfs.give4forest.org/ipfs/',
     ipfsPinningEnabled: true,
     sendErrors: true,
     analytics: {
@@ -138,6 +138,36 @@ const configurations = {
       symbol: 'USD',
       showDecimals: 2
     },
+    tokens: {
+      // Token Nativo
+      rbtc: {
+        address: '0x0000000000000000000000000000000000000000',
+        isNative: true,
+        symbol: 'RBTC',
+        logoCid: '/ipfs/QmRqPw4gVDv4uNaMzpJ1tjwm85CZysQAKTR8KfqzQzrr8B',
+        showDecimals: 5,
+        donateStep: 0.00001
+      },
+      rif: { // ERC677 Token
+        address: '0x19f64674d8a5b4e652319f5e239efd3bc969a1fe',
+        isNative: false,
+        symbol: 'tRIF',
+        logoCid: '/ipfs/QmcvQL7Yj4tryAmZPEB8qgeU1JwJNZAVN4zCcdWBNBkbQ9',
+        showDecimals: 2,
+        donateStep: 0.01
+      },
+      doc: {
+        address: '0xCB46c0ddc60D18eFEB0E586C17Af6ea36452Dae0',
+        isNative: false,
+        symbol: 'DOC',
+        logoCid: '/ipfs/QmS3XYpbPycRUmtqogrnr4REEF3St2Yu4MqUwjSoxBDjUE',
+        showDecimals: 2,
+        donateStep: 0.01
+      }
+    },
+    tokenExchangeRate: {
+      updateInterval: 60000
+    },
     anonymousDonationThreshold: 10000
   },
   rsk_mainnet: {
@@ -147,7 +177,7 @@ const configurations = {
       name: 'RSK Mainnet',
       nodeUrl: 'https://node.b4h.world',
       timeout: 20000,
-      explorer: 'https://explorer.testnet.rsk.co/',
+      explorer: 'https://explorer.rsk.co/',
       transactionEstimatedTime: 1, // Minutos
       transactionEstimatedTimeMilliseconds: 60000
     },
@@ -159,13 +189,12 @@ const configurations = {
       ]
     },
     title: 'RSK MainNet',
-    crowdfundingAddress: '0x05A55E87d40572ea0F9e9D37079FB9cA11bdCc67',
-    avaldaoContractAddress: '',
-    exchangeRateProviderContractAddress: '0x0Aa058aD63E36bC2f98806f2D638353AE89C3634',
     networkName: 'rsk_mainnet',
     nodeId: 30,
-    feathersConnection: 'https://feathers.b4h.world',
-    ipfsGateway: 'https://ipfs.b4h.world/ipfs/',
+    etherscan: 'https://explorer.rsk.co/',
+    feathersConnection: 'https://feathers.avaldao.com/',
+    feathersUsersConnection: 'https://feathers.give4forest.org/',
+    ipfsGateway: 'https://ipfs.give4forest.org/ipfs/',
     ipfsPinningEnabled: true,
     sendErrors: true,
     analytics: {
@@ -177,11 +206,44 @@ const configurations = {
     nativeToken: {
       name: 'RBTC',
       symbol: 'RBTC',
-      logoCid: '/ipfs/QmRqPw4gVDv4uNaMzpJ1tjwm85CZysQAKTR8KfqzQzrr8B',
-      showDecimals: 5
+      address: '0x0000000000000000000000000000000000000000'
+    },
+    fiat: {
+      symbol: 'USD',
+      showDecimals: 2
+    },
+    tokens: {
+      // Token Nativo
+      rbtc: {
+        address: '0x0000000000000000000000000000000000000000',
+        isNative: true,
+        symbol: 'RBTC',
+        logoCid: '/ipfs/QmRqPw4gVDv4uNaMzpJ1tjwm85CZysQAKTR8KfqzQzrr8B',
+        showDecimals: 5,
+        donateStep: 0.00001
+      },
+      rif: { // ERC677 Token
+        address: '0x2acc95758f8b5f583470ba265eb685a8f45fc9d5',
+        isNative: false,
+        symbol: 'RIF',
+        logoCid: '/ipfs/QmcvQL7Yj4tryAmZPEB8qgeU1JwJNZAVN4zCcdWBNBkbQ9',
+        showDecimals: 2,
+        donateStep: 0.01
+      },
+      doc: {
+        address: '0xe700691dA7b9851F2F35f8b8182c69c53CcaD9Db',
+        isNative: false,
+        symbol: 'DOC',
+        logoCid: '/ipfs/QmS3XYpbPycRUmtqogrnr4REEF3St2Yu4MqUwjSoxBDjUE',
+        showDecimals: 2,
+        donateStep: 0.01
+      }
+    },
+    tokenExchangeRate: {
+      updateInterval: 60000
     },
     anonymousDonationThreshold: 10000
-  },
+  }  
 };
 
 // Unknown environment
@@ -200,13 +262,14 @@ config.crowdfundingAddress = REACT_APP_CROWDFUNDING_ADDRESS || config.crowdfundi
 config.avaldaoAddress = REACT_APP_AVALDAO_ADDRESS || config.avaldaoAddress;
 config.avaldaoContractAddress = REACT_APP_AVALDAO_CONTRACT_ADDRESS || config.avaldaoContractAddress;
 config.exchangeRateProviderContractAddress = REACT_APP_EXCHANGE_RATE_PROVIDER_CONTRACT_ADDRESS || config.exchangeRateProviderContractAddress;
-config.tokens.rif.address = REACT_APP_TOKEN_RIF_ADDRESS || config.tokens.rif.address;
 config.tokens.doc.address = REACT_APP_TOKEN_DOC_ADDRESS || config.tokens.doc.address;
+config.tokens.rif.address = REACT_APP_TOKEN_RIF_ADDRESS || config.tokens.rif.address;
 config.tokenAddresses = REACT_APP_TOKEN_ADDRESSES
   ? JSON.parse(REACT_APP_TOKEN_ADDRESSES)
   : config.tokenAddresses;
 config.etherscan = REACT_APP_BLOCKEXPLORER || config.etherscan;
 config.feathersConnection = REACT_APP_FEATHERJS_CONNECTION_URL || config.feathersConnection;
+config.feathersUsersConnection = REACT_APP_FEATHERJS_USERS_CONNECTION_URL || config.feathersUsersConnection;
 config.network.nodeUrl = REACT_APP_NODE_CONNECTION_URL || config.network.nodeUrl;
 config.network.requiredId = (REACT_APP_NODE_ID && Number.parseInt(REACT_APP_NODE_ID, 10)) || config.nodeId;
 config.decimals = REACT_APP_DECIMALS;
@@ -217,6 +280,8 @@ config.nativeTokenName = REACT_APP_NATIVE_TOKEN_NAME || config.nativeTokenName;
 
 config.ipfsGateway = REACT_APP_IPFS_GATEWAY || config.ipfsGateway;
 config.ipfsPinningEnabled = (REACT_APP_IPFS_PINNING_ENABLED !== undefined) ? (REACT_APP_IPFS_PINNING_ENABLED == "true") : config.ipfsPinningEnabled;
+
+config.anonymousDonationThreshold = REACT_APP_ANONYMOUS_DONATION_THRESHOLD ||  config.anonymousDonationThreshold;
 
 //config.sendErrors = ['develop', 'release', 'beta', 'rsk_testnet'].includes(REACT_APP_ENVIRONMENT);
 
