@@ -7,8 +7,6 @@
     "default": 25,
     "max": 100
   },
-  "mongodb": "deprecated",
-  "nedb": "../data",
   "uploads": "../uploads",
   "uploadsBaseUrl": "http://localhost:3030/uploads/",
   "logDir": "",
@@ -33,12 +31,6 @@
       "entity": "user"
     }
   },
-  "useReviewerWhitelist": false,
-  "reviewerWhitelist": [],
-  "useDelegateWhitelist": false,
-  "delegateWhitelist": [],
-  "useProjectOwnerWhitelist": false,
-  "projectOwnerWhitelist": [],
   "fiatWhitelist": [
     "USD"
   ],
@@ -49,6 +41,22 @@
       "decimals": 18
     }
   ],
-  "dappMailerUrl": "http://127.0.0.1:3050",
-  "dappMailerSecret": "xxMv8a13I3YOZSKq9XmX285N0o4m1qHyKjgQWb2g83daGtPI4VmEw7dImu8kvO2ovG4EMC1bvjO906o365BaJBZtArpnxJCoYsCJ"
+  "networks": [
+    {
+      "chainId": 33,
+      "name": "RSK Regtest",
+      "url":"http://localhost:4444"
+    },
+    {
+      "chainId": 31,
+      "name": "RSK Testnet",
+      "url":"https://public-node.testnet.rsk.co"
+    },
+    {
+      "chainId": 30,
+      "name": "RSK Mainnet",
+      "url":"https://node.b4h.world"
+    }
+  ],
+  "avaldaoContractAddress":"0x05A55E87d40572ea0F9e9D37079FB9cA11bdCc67"
 }
