@@ -45,7 +45,7 @@
     {
       "chainId": 33,
       "name": "RSK Regtest",
-      "url":"http://localhost:4444"
+      "url":"http://rsk-node-regtest:4444"
     },
     {
       "chainId": 31,
