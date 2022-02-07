@@ -11,7 +11,7 @@ services:
       - ./dapp/config/configuration.js:/usr/src/app/src/configuration.js
       - .env:/usr/src/app/.env
       - ${DAPP_PATH_SRC:-./dapp/app/src}:/usr/src/app/src
-      - ${AVALDAO_CONTRACT_PROJECT}:/usr/src/app/node_modules/@acdi/avaldao-contract
+      - ${AVALDAO_CONTRACT_PATH_SRC}:/usr/src/app/node_modules/@acdi/avaldao-contract
     depends_on:
       - avaldao-ipfs
       - avaldao-mongodb
@@ -38,8 +38,10 @@ services:
       - "3031:3030"
     volumes:
       - .env:/usr/src/app/.env
+      - ./efem-users-feathers/config/config.js:/usr/src/app/config/config.js
       - ./efem-users-feathers/config/default.json:/usr/src/app/config/default.json
       - ${FEATHERS_USER_PATH_SRC:-./efem-users-feathers/src}:/usr/src/app/src
+      - ${AVALDAO_CONTRACT_PATH_SRC}:/usr/src/app/node_modules/@acdi/avaldao-contract
 
   avaldao-ipfs:
     container_name: avaldao-ipfs
