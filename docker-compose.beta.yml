@@ -1,32 +1,34 @@
 version: "3"
 services:
-  efem-feathers:
-    container_name: efem-feathers
-    image: acdi/give4forests-feathers:latest
+  avaldao-feathers:
+    container_name: avaldao-feathers
+    image: acdi/avaldao-feathers:latest
     ports:
-      - "3030:3030"
+      - "7030:3030"
     restart: always
     volumes:
-      - /etc/efem/feathers/default.json:/usr/src/app/config/default.json
-      - /etc/efem/feathers/.env:/usr/src/app/config/.env
-      - /etc/efem/feathers/.env:/usr/src/app/.env
-    depends_on:
-      - efem-ipfs
+      - /etc/avaldao/feathers/default.json:/usr/src/app/config/default.json
+      - /etc/avaldao/feathers/.env:/usr/src/app/.env 
+#    depends_on:
+#      - efem-ipfs
 
-  efem-ipfs:
-    container_name: efem-ipfs
-    image: acdi/give4forests-ipfs
-    ports:
-      - "4001:4001"     # Swarm tcp, should be exposed to the public
-      - "4001:4001/udp" # Swarm tcp, should be exposed to the public
-      - "5001:5001"     # Daemon API; must not be exposed publicly but to client services under you control
-      - "8080:8080"     # Web Gateway
-    restart: always
-
-    volumes:
-      - ipfs-data:/data/ipfs
-      - ipfs-export:/export
-
-volumes:
-  ipfs-data:
-  ipfs-export:
+# Descomentar las siguientes lineas en caso de que sea necesario levantar ipfs como servicio
+# Tambien se puede utilizar el de give4forest https://give4forest.org/ipfs/
+#
+#  efem-ipfs:
+#    container_name: avaldao-ipfs
+#    image: acdi/give4forests-ipfs
+#    ports:
+#      - "4001:4001"     # Swarm tcp, should be exposed to the public
+#      - "4001:4001/udp" # Swarm tcp, should be exposed to the public
+#      - "5001:5001"     # Daemon API; must not be exposed publicly but to client services under you control
+#      - "8080:8080"     # Web Gateway
+#    restart: always
+#
+#    volumes:
+#      - ipfs-data:/data/ipfs
+#      - ipfs-export:/export
+#
+#volumes:
+#  ipfs-data:
+#  ipfs-export:

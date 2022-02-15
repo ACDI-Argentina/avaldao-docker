@@ -1,5 +1,5 @@
 server {
-    server_name feathers.give4forest.org;
+    server_name feathers.avaldao.com;
 
     location / {
       proxy_pass http://localhost:3030;

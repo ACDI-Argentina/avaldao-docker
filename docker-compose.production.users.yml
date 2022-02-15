@@ -1,0 +1,14 @@
+version: "3"
+services:
+  efem-users:
+    container_name: efem-users
+    image: acdi/efem-users-feathers
+#    restart: always
+    ports:
+      - "3031:3031"
+    volumes:
+      - /etc/efem-users-service/.env:/usr/src/app/.env
+    environment:
+    - FEATHERS_USERS_SERVICE_PORT=3031
+    # - NODE_ENV=TESTING
+    #- AVALDAO_CONTRACT_ADDRESS=0x47cb5762C59483b699927f3e3Da2DaaB4aF274C8

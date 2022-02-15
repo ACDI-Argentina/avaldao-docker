@@ -3,7 +3,7 @@ upstream ipfs {
 }
 
 server {
-    server_name give4forest.org;
+    server_name dapp.avaldao.com;
 
     index index.html index.htm;
     root /var/www/html/dapp;
