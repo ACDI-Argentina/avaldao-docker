@@ -26,6 +26,7 @@ services:
     volumes:
       - .env:/usr/src/app/.env
       - ./feathers/config/default.json:/usr/src/app/config/default.json
+      - ./feathers/config/authentication.js:/usr/src/app/config/authentication.js
       - ${FEATHERS_PATH_SRC:-./feathers/src}:/usr/src/app/src
     depends_on:
       - avaldao-ipfs
@@ -40,6 +41,7 @@ services:
       - .env:/usr/src/app/.env
       - ./efem-users-feathers/config/config.js:/usr/src/app/config/config.js
       - ./efem-users-feathers/config/default.json:/usr/src/app/config/default.json
+      - ./efem-users-feathers/config/authentication.js:/usr/src/app/config/authentication.js
       - ${FEATHERS_USER_PATH_SRC:-./efem-users-feathers/src}:/usr/src/app/src
       - ${AVALDAO_CONTRACT_PATH_SRC}:/usr/src/app/node_modules/@acdi/avaldao-contract
 
