@@ -35,7 +35,7 @@ En *Desarrollo* se recomienda iniciar un nodo privado RSK local de la siguiente 
 ```
 docker-compose -f docker-compose.dev.rsk-node-regtest.yml up -d
 ```
-Para detener el nodo y eleiminar el contenedor debe ejecutarse lo siguiente:
+Para detener el nodo y eliminar el contenedor debe ejecutarse lo siguiente:
 
 ```
 docker-compose -f docker-compose.dev.rsk-node-regtest.yml down
@@ -58,10 +58,8 @@ Para la construcción de las imágenes de *avaldao-dapp* y de *avaldao-feathers*
 .\scripts\clone-avaladao-feathers.sh
 ```
 
-> Este paso solo es necesario en el caso de que se trabaje en un entorno de desarrollo. Para los demás ambiente, las imagenes de los contenedores se pueden obtener directamente directamente desde [ACDI Dockerhub](https://hub.docker.com/u/acdi). 
+> Este paso solo es necesario en el caso de que se trabaje en un entorno de desarrollo. Para los demás ambientes, las imagenes de los contenedores se pueden obtener directamente desde [ACDI Dockerhub](https://hub.docker.com/u/acdi). 
 > En el caso del servicio *efem-users-feathers* el mismo es ejecutado utilizando la imagen publicada en dockerhub, independientemente del entorno utilizado.
-
-
 
 ### 4. Configuración
 

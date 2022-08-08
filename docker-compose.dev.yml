@@ -8,10 +8,14 @@ services:
       - "3010:3010"
     stdin_open: true
     volumes:
-      - ./dapp/config/configuration.js:/usr/src/app/src/configuration.js
       - .env:/usr/src/app/.env
-      - ${DAPP_PATH_SRC:-./dapp/app/src}:/usr/src/app/src
+      - ./dapp/config/configuration.js:/usr/src/app/src/configuration.js
+      - ${DAPP_PATH_SRC}:/usr/src/app/src
+      - ${DAPP_PATH_PUBLIC}:/usr/src/app/public
       - ${AVALDAO_CONTRACT_PATH_SRC}:/usr/src/app/node_modules/@acdi/avaldao-contract
+      - ${EFEM_CONTRACT_PATH_SRC}:/usr/src/app/node_modules/@acdi/efem-contract
+#     - ${EFEM_DAPP_PATH_SRC}:/home/efem-dapp/dist
+      - ${EFEM_DAPP_PATH_SRC}:/usr/src/app/node_modules/@acdi/efem-dapp/dist
     depends_on:
       - avaldao-ipfs
       - avaldao-mongodb
@@ -32,8 +36,9 @@ services:
       - avaldao-ipfs
       - avaldao-mongodb
       
-  efem-users-feathers:
-    container_name: efem-users-feathers
+  avaldao-efem-users-feathers:
+    container_name: avaldao-efem-users-feathers
+#    build: ./efem-users-feathers
     image: acdi/efem-users-feathers
     ports:
       - "3031:3030"
@@ -42,8 +47,14 @@ services:
       - ./efem-users-feathers/config/config.js:/usr/src/app/config/config.js
       - ./efem-users-feathers/config/default.json:/usr/src/app/config/default.json
       - ./efem-users-feathers/config/authentication.js:/usr/src/app/config/authentication.js
-      - ${FEATHERS_USER_PATH_SRC:-./efem-users-feathers/src}:/usr/src/app/src
-      - ${AVALDAO_CONTRACT_PATH_SRC}:/usr/src/app/node_modules/@acdi/avaldao-contract
+      - ${FEATHERS_USER_PATH_SRC}:/usr/src/app/src
+      - ${EFEM_CONTRACT_PATH_SRC}:/usr/src/app/node_modules/@acdi/efem-contract
+
+  avaldao-mongodb:
+    container_name: avaldao-mongodb
+    image: mongo:5.0.0
+    ports:
+      - "27017:27017"
 
   avaldao-ipfs:
     container_name: avaldao-ipfs
@@ -58,8 +69,4 @@ services:
       - ${IPFS_DATA:-./ipfs/data}:/data/ipfs
       - ${IPFS_EXPORT:-./ipfs/export}:/export
 
-  avaldao-mongodb:
-    container_name: avaldao-mongodb
-    image: mongo:5.0.0
-    ports:
-      - "27017:27017"
+  
