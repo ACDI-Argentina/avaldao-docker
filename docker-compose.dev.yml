@@ -44,9 +44,7 @@ services:
       - "3031:3030"
     volumes:
       - .env:/usr/src/app/.env
-      - ./efem-users-feathers/config/config.js:/usr/src/app/config/config.js
-      - ./efem-users-feathers/config/default.json:/usr/src/app/config/default.json
-      - ./efem-users-feathers/config/authentication.js:/usr/src/app/config/authentication.js
+      - ./efem-users-feathers/config:/usr/src/app/config
       - ${FEATHERS_USER_PATH_SRC}:/usr/src/app/src
       - ${EFEM_CONTRACT_PATH_SRC}:/usr/src/app/node_modules/@acdi/efem-contract
 
